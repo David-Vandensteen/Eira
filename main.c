@@ -46,26 +46,26 @@ int main(void){
     /* DECLARATION */
 	WORD i, j, k;
 	vblStepByStep vblSbS;
-    logoZoomEffect logoZoomEffect;
+	logoZoomEffect logoZoomEffect;
 	spr backgroundSpr, triangle03downSpr, triangle03upSpr, triangle02downSpr, triangle02upSpr, triangle01downSpr, triangle01upSpr;
 	snowField snowFieldBig, snowFieldMedium, snowFieldLittle;
-    WORD sin = 0;
+	WORD sin = 0;
 
     #ifdef TEXT_ON
     texter text;
     #endif
     
 	WORD logoZoomEffectPol = 0;
-    fadeIn fadeInBackground;
+	fadeIn fadeInBackground;
 
     /* INIT */
-    playcdda();
+	playcdda();
 	setpalette(0, 60, (const PPALETTE)&palettes);
 	vblSbS = vblStepByStepMake();
-    logoZoomEffect = logoZoomEffectMake(0, 50, 1);
+	logoZoomEffect = logoZoomEffectMake(0, 50, 1);
 	set_current_sprite(3);
 
-    fadeInBackground = fadeInMake((const PPALETTE)&palettes);
+	fadeInBackground = fadeInMake((const PPALETTE)&palettes);
 
 	/* INIT SPRITE & STRUCT SPRITE */
 	
@@ -150,9 +150,9 @@ int main(void){
 	
 	
 	#ifdef TEXT_ON
-    #define TEXT00 "** NEO GEO CD INTRO RELEASED BY RESISTANCE ** MUSIC AND CODE : NAINAIN  ** GRAPHICS AND DESIGN GRASS     THIS IS OUR FIRST RELEASE IN NEO GEO SCENE   WWW.RESISTANCE.NO   ENJOY!                         ***     ****   *****         *********                                                             "
+	#define TEXT00 "** NEO GEO CD INTRO RELEASED BY RESISTANCE ** MUSIC AND CODE : NAINAIN  ** GRAPHICS AND DESIGN GRASS     THIS IS OUR FIRST RELEASE IN NEO GEO SCENE   WWW.RESISTANCE.NO   ENJOY!                         ***     ****   *****         *********                                                             "
 	text = texter8Make(TEXT00, vec2intMake(328,100));
-    #endif
+	#endif
 	while(1){
 		wait_vbl();
 		#ifdef TRIANGLES
@@ -199,9 +199,9 @@ int main(void){
 		if (logoZoomEffect.zoom <= 50) { logoZoomEffectPol = 0; }
 		#endif
 		
-        #ifdef TEXT_ON
-        texter8SinScrollEffect(&text,sin);
-        #endif
+		#ifdef TEXT_ON
+		texter8SinScrollEffect(&text,sin);
+		#endif
 
 		vblStepByStepUpdate(&vblSbS);
 	}

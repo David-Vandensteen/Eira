@@ -84,27 +84,27 @@ void logoZoomEffectUpdate(logoZoomEffect logozoomeffect){
 		break;
 	case 86:
 		write_sprite_data(XPOS, YPOS, 15, 255, tileSizeClipping(96), tileSizeNB(304), (const PTILEMAP)&logo_86);
-        set_current_sprite(curSpriteId);
+		set_current_sprite(curSpriteId);
 		break;
 	case 85:
 		write_sprite_data(XPOS, YPOS, 15, 255, tileSizeClipping(96), tileSizeNB(304), (const PTILEMAP)&logo_85);
-        set_current_sprite(curSpriteId);
+		set_current_sprite(curSpriteId);
 		break;
 	case 84:
 		write_sprite_data(XPOS, YPOS, 15, 255, tileSizeClipping(96), tileSizeNB(304), (const PTILEMAP)&logo_84);
-        set_current_sprite(curSpriteId);
+		set_current_sprite(curSpriteId);
 		break;
 	case 83:
 		write_sprite_data(XPOS, YPOS, 15, 255, tileSizeClipping(96), tileSizeNB(304), (const PTILEMAP)&logo_83);
-        set_current_sprite(curSpriteId);
+		set_current_sprite(curSpriteId);
 		break;
 	case 82:
 		write_sprite_data(XPOS, YPOS, 15, 255, tileSizeClipping(96), tileSizeNB(304), (const PTILEMAP)&logo_82);
-        set_current_sprite(curSpriteId);
+		set_current_sprite(curSpriteId);
 		break;
 	case 81:
 		write_sprite_data(XPOS, YPOS, 15, 255, tileSizeClipping(96), tileSizeNB(304), (const PTILEMAP)&logo_81);
-        set_current_sprite(curSpriteId);
+		set_current_sprite(curSpriteId);
 		break;
 	case 80:
 		write_sprite_data(XPOS, YPOS, 15, 255, tileSizeClipping(96), tileSizeNB(304), (const PTILEMAP)&logo_80);
