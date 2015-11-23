@@ -10,9 +10,9 @@
 #include "snowField.h"
 
 #define TRIANGLES
-#define LOGO
-#define TEXT_ON
-#define SNOW
+//#define LOGO
+//#define TEXT_ON
+//#define SNOW
 
 
 extern PALETTE	palettes[];
@@ -20,13 +20,13 @@ extern TILEMAP background, triangle03down, triangle03up, triangle02down, triangl
 
 void trianglesDownEffect(spr *triangle01, spr *triangle02, spr *triangle03){
 	if (triangle01->zoom.y >= 250){
-		triangle03->zoomInc.y = -2;
-		triangle02->zoomInc.y = -2;
+		triangle03->zoomInc.y = -2; //-2
+		triangle02->zoomInc.y = -2; //-2
 		triangle01->zoomInc.y = -3; //-3
 	}
 	if (triangle01->zoom.y <= 1){//1
-		triangle03->zoomInc.y = 2;
-		triangle02->zoomInc.y = 2;
+		triangle03->zoomInc.y = 2; // 2
+		triangle02->zoomInc.y = 2; // 2
 		triangle01->zoomInc.y = 3; // 3
 	}
 }

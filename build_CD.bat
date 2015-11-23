@@ -2,7 +2,7 @@ set pc1=NBL042045
 set pc2=PCL038442
 set pc3=DAVIDV-AIRPC
 
-set demoName=RSEDemo
+set demoName=Eira
 set audioName=audio
 set driveMount=E
 
