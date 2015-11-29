@@ -67,7 +67,7 @@ snowField snowFieldMake(WORD type){
 void snowFieldUpdate(snowField *sf){
 	WORD i = 0;
 	for (i = 0; i < sf->spriteQty; i++){
-		if (sf->sprs[i].pos.x > 320 || sf->sprs[i].pos.y > 170){
+		if (sf->sprs[i].pos.x > 320 || sf->sprs[i].pos.y > 180){ // 170
 			sf->sprs[i].pos.x = (RAND320) - XSCREEN_OFFSET;
 			sf->sprs[i].pos.y = 0;
 		}

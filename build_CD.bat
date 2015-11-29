@@ -3,7 +3,7 @@ set pc2=PCL038442
 set pc3=DAVIDV-AIRPC
 
 set demoName=Eira
-set audioName=audio
+set audioName=Eira
 set driveMount=E
 
 if %computername%==%pc1% set NEODEV=C:\Users\davidv\Dropbox\NeoDev

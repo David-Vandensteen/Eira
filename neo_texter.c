@@ -125,7 +125,7 @@ WORD texter8SinScrollEffect(texter *text, WORD sin){
 	for (i = 0; i <= TEXTER_SPRITES_QTY; i++){
 		if (text->sprs[j].idSpr != 0){
 			text->sprs[j].pos.x--;
-			text->sprs[j].pos.y = (ifmuli(fsin((sin - i * 1) * 8), 24) + 128);
+			text->sprs[j].pos.y = (ifmuli(fsin((sin - i * 1) * 8), 24) + 152); //128
 			change_sprite_pos(text->sprs[j].idSpr, text->sprs[j].pos.x, text->sprs[j].pos.y, text->sprs[j].clipping);
 			if (text->sprs[j].pos.x <= 0){
 				texterRemoveAt(text, j);

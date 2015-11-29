@@ -10,24 +10,24 @@
 #include "snowField.h"
 
 #define TRIANGLES
-//#define LOGO
-//#define TEXT_ON
-//#define SNOW
+#define LOGO
+#define TEXT_ON
+#define SNOW
 
 
 extern PALETTE	palettes[];
 extern TILEMAP background, triangle03down, triangle03up, triangle02down, triangle02up, triangle01down, triangle01up;
 
 void trianglesDownEffect(spr *triangle01, spr *triangle02, spr *triangle03){
-	if (triangle01->zoom.y >= 250){
+	if (triangle02->zoom.y >= 250){
 		triangle03->zoomInc.y = -2; //-2
 		triangle02->zoomInc.y = -2; //-2
-		triangle01->zoomInc.y = -3; //-3
+		triangle01->zoomInc.y = -1; //-3
 	}
-	if (triangle01->zoom.y <= 1){//1
+	if (triangle02->zoom.y <= 141){//1 //140 //130
 		triangle03->zoomInc.y = 2; // 2
 		triangle02->zoomInc.y = 2; // 2
-		triangle01->zoomInc.y = 3; // 3
+		triangle01->zoomInc.y = 1; // 3
 	}
 }
 void trianglesUpEffect(spr *triangle01, spr *triangle02, spr *triangle03){
@@ -141,7 +141,7 @@ int main(void){
 	/*	TRIANGLE01DOWN SPRITE - AUTOMOVE			*/
 	#ifdef TRIANGLES
 	triangle01downSpr = sprMakeDefault(get_current_sprite());
-	triangle01downSpr.pos.y = 206; //176
+	triangle01downSpr.pos.y = 188; //176 //206 //186
 	triangle01downSpr.posInc.x--;
 	triangle01downSpr.vblSkipTranslation = 5;
 	triangle01downSpr.size = vec2u16Make(512, 48);
@@ -150,7 +150,10 @@ int main(void){
 	
 	
 	#ifdef TEXT_ON
-	#define TEXT00 "** NEO GEO CD INTRO RELEASED BY RESISTANCE ** MUSIC AND CODE : NAINAIN  ** GRAPHICS AND DESIGN GRASS     THIS IS OUR FIRST RELEASE IN NEO GEO SCENE   WWW.RESISTANCE.NO   ENJOY!                         ***     ****   *****         *********                                                             "
+	#define TEXT00 "** NEO GEO CD INTRO RELEASED BY RESISTANCE ** MUSIC AND CODE NAINAIN ** GRAPHICS AND DESIGN GRASS THIS IS OUR FIRST RELEASE IN NEO GEO SCENE WWW.RESISTANCE.NO ENJOY!                                           "
+	/*
+	#define TEXT00 "** NEO GEO CD INTRO RELEASED BY RESISTANCE ** MUSIC AND CODE NAINAIN ** GRAPHICS AND DESIGN GRASS THIS IS OUR FIRST RELEASE IN NEO GEO SCENE   WWW.RESISTANCE.NO   ENJOY!                                       "
+	 */
 	text = texter8Make(TEXT00, vec2intMake(328,100));
 	#endif
 	while(1){
@@ -200,7 +203,11 @@ int main(void){
 		#endif
 		
 		#ifdef TEXT_ON
-		texter8SinScrollEffect(&text,sin);
+		if(_vbl_count > 200) texter8SinScrollEffect(&text,sin);
+		if(_vbl_count % 2000 == 0) { // TEXT RESTART
+			text.headPlaySpr = 0;
+			text.headPlayStr = 0;
+		}
 		#endif
 
 		vblStepByStepUpdate(&vblSbS);
