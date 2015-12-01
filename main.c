@@ -151,9 +151,7 @@ int main(void){
 	
 	#ifdef TEXT_ON
 	#define TEXT00 "** NEO GEO CD INTRO RELEASED BY RESISTANCE ** MUSIC AND CODE NAINAIN ** GRAPHICS AND DESIGN GRASS THIS IS OUR FIRST RELEASE IN NEO GEO SCENE WWW.RESISTANCE.NO ENJOY!                                           "
-	/*
-	#define TEXT00 "** NEO GEO CD INTRO RELEASED BY RESISTANCE ** MUSIC AND CODE NAINAIN ** GRAPHICS AND DESIGN GRASS THIS IS OUR FIRST RELEASE IN NEO GEO SCENE   WWW.RESISTANCE.NO   ENJOY!                                       "
-	 */
+//	#define TEXT00 "A  B  C  D  E  F  G  H  I  J  K  L  M  N  O  P  Q  R  S  T  U                                            "
 	text = texter8Make(TEXT00, vec2intMake(328,100));
 	#endif
 	while(1){
@@ -203,7 +201,10 @@ int main(void){
 		#endif
 		
 		#ifdef TEXT_ON
-		if(_vbl_count > 200) texter8SinScrollEffect(&text,sin);
+		if (_vbl_count > 200) {
+			texter8SinScrollEffect(&text, sin);
+			//texter8SinScrollEffectDebug(text);
+		}
 		if(_vbl_count % 2000 == 0) { // TEXT RESTART
 			text.headPlaySpr = 0;
 			text.headPlayStr = 0;
