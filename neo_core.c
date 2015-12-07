@@ -2,8 +2,6 @@
 #include <stdlib.h>
 #include <video.h>
 
-/* GLOBALS VAR CONST */
-
 /*	VECTOR */
 vec2int vec2intMake(int x, int y){
 	vec2int rvec2;
@@ -281,18 +279,4 @@ void sprZoomEffectPingPong(spr *spr, WORD maxTresh, WORD minTresh){
 			if (spr->origZoomInc.x < 0){ spr->zoomInc.x = spr->origZoomInc.x * -1; }
 		}
 	}
-}
-
-/*	PALETTE NEOGEO */
-fadeIn fadeInMake(PPALETTE palettes){
-	fadeIn r;
-	create_fader((const PPALETTE)&palettes[1], &r.fader, 1);
-	r.table = &_fade_to_black;
-	r.step = 31; //31
-	do_fade(1, &r.fader, r.table, 1, r.step);
-	return r;
-}
-void fadeInUpdate(fadeIn *fadeIn, WORD palstart, WORD nb){
-	fadeIn->step--; //step--
-	do_fade(palstart, &fadeIn->fader, fadeIn->table, nb, fadeIn->step);
 }

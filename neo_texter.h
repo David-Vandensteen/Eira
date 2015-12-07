@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <video.h>
 
-#define TEXTER_SPRITES_QTY 42 //42
+#define TEXTER_SPRITES_QTY 43 //42
 extern TILEMAP fontA16[], fontB16[];
 typedef struct texter texter;
 struct texter{

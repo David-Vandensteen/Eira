@@ -13,12 +13,13 @@
 #define LOGO
 #define TEXT_ON
 #define SNOW
+#define STEPDB_ON
 
 
 extern PALETTE	palettes[];
-extern TILEMAP background, triangle03down, triangle03up, triangle02down, triangle02up, triangle01down, triangle01up;
+extern TILEMAP  triangle03down, triangle03up, triangle02down, triangle02up, triangle01down, triangle01up;
 
-void trianglesDownEffect(spr *triangle01, spr *triangle02, spr *triangle03){
+static void trianglesDownEffect(spr *triangle01, spr *triangle02, spr *triangle03){
 	if (triangle02->zoom.y >= 250){
 		triangle03->zoomInc.y = -2; //-2
 		triangle02->zoomInc.y = -2; //-2
@@ -30,7 +31,7 @@ void trianglesDownEffect(spr *triangle01, spr *triangle02, spr *triangle03){
 		triangle01->zoomInc.y = 1; // 3
 	}
 }
-void trianglesUpEffect(spr *triangle01, spr *triangle02, spr *triangle03){
+static void trianglesUpEffect(spr *triangle01, spr *triangle02, spr *triangle03){
 	if (triangle01->zoom.y >= 250){
 		triangle03->zoomInc.y = -2;
 		triangle02->zoomInc.y = -2;
@@ -44,35 +45,31 @@ void trianglesUpEffect(spr *triangle01, spr *triangle02, spr *triangle03){
 }
 int main(void){
     /* DECLARATION */
-	WORD i, j, k;
+	#ifdef STEPDB_ON
 	vblStepByStep vblSbS;
+	#endif
 	logoZoomEffect logoZoomEffect;
-	spr backgroundSpr, triangle03downSpr, triangle03upSpr, triangle02downSpr, triangle02upSpr, triangle01downSpr, triangle01upSpr;
+	spr triangle03downSpr, triangle03upSpr, triangle02downSpr, triangle02upSpr, triangle01downSpr, triangle01upSpr;
 	snowField snowFieldBig, snowFieldMedium, snowFieldLittle;
-	WORD sin = 0;
+	WORD sinText = 0;
+	WORD sinLogo = 0;
 
     #ifdef TEXT_ON
     texter text;
     #endif
-    
-	WORD logoZoomEffectPol = 0;
-	fadeIn fadeInBackground;
-
+	
     /* INIT */
 	playcdda();
-	setpalette(0, 60, (const PPALETTE)&palettes);
+	setpalette(0, 60, (const PPALETTE)&palettes);	
+	asm("move #0x1157,0x401FFE"); //background color //136
+	#ifdef STEPDB_ON
 	vblSbS = vblStepByStepMake();
-	logoZoomEffect = logoZoomEffectMake(0, 50, 1);
+	#endif
+	logoZoomEffect = logoZoomEffectMake(0,75,2);
 	set_current_sprite(3);
-
-	fadeInBackground = fadeInMake((const PPALETTE)&palettes);
 
 	/* INIT SPRITE & STRUCT SPRITE */
 	
-	/*	BACKGROUND SPRITE*/	
-	backgroundSpr = sprMakeDefault(get_current_sprite());
-	write_sprite_data_nn(backgroundSpr, (const PTILEMAP)&background);
-
 	/*	SNOW */
 	#ifdef SNOW
 	snowFieldBig = snowFieldMake(1);
@@ -80,7 +77,7 @@ int main(void){
 	
 	#ifdef LOGO
 	logoZoomEffect.spriteId = get_current_sprite();
-	logoZoomEffectUpdate(logoZoomEffect);
+	logoZoomEffectUpdate(&logoZoomEffect, sinLogo);
 	#endif
 
 	#ifdef SNOW
@@ -94,7 +91,7 @@ int main(void){
 	triangle03upSpr.pos.y = 0;
 	triangle03upSpr.posInc.x--;
 	triangle03upSpr.vblSkipTranslation = 15;
-	triangle03upSpr.size = vec2u16Make(512, 48);
+	triangle03upSpr.size = vec2u16Make(512, 48); //512, 48
 	write_sprite_data_nn(triangle03upSpr, (const PTILEMAP)&triangle03up);
 	#endif
 	
@@ -104,7 +101,7 @@ int main(void){
 	triangle02upSpr.pos.y = 0;
 	triangle02upSpr.posInc.x--;
 	triangle02upSpr.vblSkipTranslation = 10;
-	triangle02upSpr.size = vec2u16Make(512, 48);
+	triangle02upSpr.size = vec2u16Make(512, 32);
 	write_sprite_data_nn(triangle02upSpr, (const PTILEMAP)&triangle02up);
 	#endif
 	
@@ -114,14 +111,14 @@ int main(void){
 	triangle01upSpr.pos.y = 0;
 	triangle01upSpr.posInc.x--;
 	triangle01upSpr.vblSkipTranslation = 5;
-	triangle01upSpr.size = vec2u16Make(512, 48);
+	triangle01upSpr.size = vec2u16Make(512, 16);
 	write_sprite_data_nn(triangle01upSpr, (const PTILEMAP)&triangle01up);
 	#endif
 	
 	/*	TRIANGLE03DOWN SPRITE	- AUTOMOVE		*/
 	#ifdef TRIANGLES
 	triangle03downSpr = sprMakeDefault(get_current_sprite());
-	triangle03downSpr.pos.y = 196; //176
+	triangle03downSpr.pos.y = 196; 
 	triangle03downSpr.posInc.x--;
 	triangle03downSpr.vblSkipTranslation = 15;
 	triangle03downSpr.size = vec2u16Make(512,48);
@@ -131,20 +128,20 @@ int main(void){
 	/*	TRIANGLE02DOWN SPRITE - AUTOMOVE			*/
 	#ifdef TRIANGLES
 	triangle02downSpr = sprMakeDefault(get_current_sprite());
-	triangle02downSpr.pos.y = 196; //176
+	triangle02downSpr.pos.y = 207; //208
 	triangle02downSpr.posInc.x--;
 	triangle02downSpr.vblSkipTranslation = 10;
-	triangle02downSpr.size = vec2u16Make(512, 48);
+	triangle02downSpr.size = vec2u16Make(512, 32);
 	write_sprite_data_nn(triangle02downSpr, (const PTILEMAP)&triangle02down);
 	#endif
 	
 	/*	TRIANGLE01DOWN SPRITE - AUTOMOVE			*/
 	#ifdef TRIANGLES
 	triangle01downSpr = sprMakeDefault(get_current_sprite());
-	triangle01downSpr.pos.y = 188; //176 //206 //186
+	triangle01downSpr.pos.y = 213; //214
 	triangle01downSpr.posInc.x--;
 	triangle01downSpr.vblSkipTranslation = 5;
-	triangle01downSpr.size = vec2u16Make(512, 48);
+	triangle01downSpr.size = vec2u16Make(512, 16);
 	write_sprite_data_nn(triangle01downSpr, (const PTILEMAP)&triangle01down);
 	#endif
 	
@@ -174,35 +171,22 @@ int main(void){
 		snowFieldUpdate(&snowFieldLittle);
 		#endif
 
-		#ifdef TEXT_ON
-		#endif
 		
 		/* VBL CONDITIONS */
-		//fade 
-		if (_vbl_count % 3 == 0 && fadeInBackground.step > 0){
-            fadeInUpdate(&fadeInBackground, 1, 1);
-		}
-
 		//texter sin
 		#ifdef TEXT_ON
 		if (_vbl_count % 2 == 0){
-			sin++;
+			sinText++;
 		}
 		#endif
 
 		#ifdef LOGO
-		if (_vbl_count % logoZoomEffect.vblSkip == 0){
-			logoZoomEffectUpdate(logoZoomEffect);
-			if(logoZoomEffectPol == 0) logoZoomEffect.zoom++;
-			if (logoZoomEffectPol > 0) logoZoomEffect.zoom--;
-		}
-		if (logoZoomEffect.zoom >= 100){ logoZoomEffectPol = 1; }
-		if (logoZoomEffect.zoom <= 50) { logoZoomEffectPol = 0; }
+		logoZoomEffectUpdate(&logoZoomEffect, sinLogo);
 		#endif
 		
 		#ifdef TEXT_ON
 		if (_vbl_count > 200) {
-			texter8SinScrollEffect(&text, sin);
+			texter8SinScrollEffect(&text, sinText);
 			//texter8SinScrollEffectDebug(text);
 		}
 		if(_vbl_count % 2000 == 0) { // TEXT RESTART
@@ -210,7 +194,12 @@ int main(void){
 			text.headPlayStr = 0;
 		}
 		#endif
+		#ifdef LOGO
+		sinLogo++;
+		#endif
 
+		#ifdef STEPDB_ON
 		vblStepByStepUpdate(&vblSbS);
+		#endif
 	}
 }

@@ -3,6 +3,7 @@
 #include <input.h>
 #include "neo_core.h"
 #include "snowField.h"
+#include "neo_db.h"
 
 #define XSCREEN_OFFSET 120
 #define YSCREEN_OFFSET 224
@@ -24,7 +25,7 @@ snowField snowFieldMake(WORD type){
 				4 + rand() % 2 , //4
 				vec2u16Make(15, 255),
 				vec2intMake(-1, 0),
-				10
+				8
 				);
 			write_sprite_data_nn(r.sprs[i], (const PTILEMAP)&snow);
 		}
@@ -69,7 +70,7 @@ void snowFieldUpdate(snowField *sf){
 	for (i = 0; i < sf->spriteQty; i++){
 		if (sf->sprs[i].pos.x > 320 || sf->sprs[i].pos.y > 180){ // 170
 			sf->sprs[i].pos.x = (RAND320) - XSCREEN_OFFSET;
-			sf->sprs[i].pos.y = 0;
+			sf->sprs[i].pos.y = 30;
 		}
 		sprUpdate(&sf->sprs[i]);
 		switch (sf->type) {

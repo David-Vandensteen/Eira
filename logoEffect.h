@@ -6,11 +6,14 @@ extern TILEMAP shadow;
 typedef struct logoZoomEffect logoZoomEffect;
 struct logoZoomEffect{
 	WORD spriteId;
+	WORD spriteIdShadow;
 	WORD zoom;
+	WORD zoomLast;
+	WORD polarity;
 	WORD vblSkip;
 };
 typedef struct logoZoomEffectShadow logoZoomEffectShadow;
 logoZoomEffect logoZoomEffectMake(WORD spriteId, WORD zoom, WORD vblSkip);
-void logoZoomEffectUpdate(logoZoomEffect logozoomeffect);
+void logoZoomEffectUpdate(logoZoomEffect *logozoomeffect, WORD sin);
 
 #endif

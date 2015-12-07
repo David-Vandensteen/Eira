@@ -185,10 +185,6 @@ spr sprMakeDefault(WORD idSpr);
 /*	TRANSFORM NEOGEO */
 void sprZoomEffectPingPong(spr *spr, WORD maxTresh, WORD minTresh);
 
-/* PALETTE NEOGEO */
-fadeIn fadeInMake(PPALETTE palettes);
-void fadeInUpdate(fadeIn *fadeIn, WORD palstart, WORD nb);
-
 /* UTILS */
 scrolling scrollingMake(vec2word pos, vec2word posInc, WORD vblFrameSkip);
 scrolling ScrollingMakeZero();
