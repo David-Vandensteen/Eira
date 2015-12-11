@@ -25,7 +25,7 @@
 	TRIANGLE SPRITE LOOPED	:	WIDTH = 512
 */
 
-/* GLOBALS VAR CONST */
+#define FIXEDCOEF	65536
 
 /*	TYPE: */
 #define s8      char

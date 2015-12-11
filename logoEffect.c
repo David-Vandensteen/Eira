@@ -36,102 +36,102 @@ void logoZoomEffectUpdate(logoZoomEffect *logozoomeffect, WORD sin){
 		
 	if (logozoomeffect->zoom != logozoomeffect->zoomLast){
 		switch (logozoomeffect->zoom){
-		case 100:
-			write_sprite_data(XPOS, YPOS, 15, 255, tileSizeClipping(96), tileSizeNB(304), (const PTILEMAP)&logo);
-			set_current_sprite(curSpriteId);
-			break;
-		case 99:
-			write_sprite_data(XPOS, YPOS, 15, 255, tileSizeClipping(96), tileSizeNB(304), (const PTILEMAP)&logo_99);
-			set_current_sprite(curSpriteId);
-			break;
-		case 98:
-			write_sprite_data(XPOS, YPOS, 15, 255, tileSizeClipping(96), tileSizeNB(304), (const PTILEMAP)&logo_98);
-			set_current_sprite(curSpriteId);
-			break;
-		case 97:
-			write_sprite_data(XPOS, YPOS, 15, 255, tileSizeClipping(96), tileSizeNB(304), (const PTILEMAP)&logo_97);
-			set_current_sprite(curSpriteId);
-			break;
-		case 96:
-			write_sprite_data(XPOS, YPOS, 15, 255, tileSizeClipping(96), tileSizeNB(304), (const PTILEMAP)&logo_96);
-			set_current_sprite(curSpriteId);
-			break;
-		case 95:
-			write_sprite_data(XPOS, YPOS, 15, 255, tileSizeClipping(96), tileSizeNB(304), (const PTILEMAP)&logo_95);
-			set_current_sprite(curSpriteId);
-			break;
-		case 94:
-			write_sprite_data(XPOS, YPOS, 15, 255, tileSizeClipping(96), tileSizeNB(304), (const PTILEMAP)&logo_94);
-			set_current_sprite(curSpriteId);
-			break;
-		case 93:
-			write_sprite_data(XPOS, YPOS, 15, 255, tileSizeClipping(96), tileSizeNB(304), (const PTILEMAP)&logo_93);
-			set_current_sprite(curSpriteId);
-			break;
-		case 92:
-			write_sprite_data(XPOS, YPOS, 15, 255, tileSizeClipping(96), tileSizeNB(304), (const PTILEMAP)&logo_92);
-			set_current_sprite(curSpriteId);
-			break;
-		case 91:
-			write_sprite_data(XPOS, YPOS, 15, 255, tileSizeClipping(96), tileSizeNB(304), (const PTILEMAP)&logo_91);
-			set_current_sprite(curSpriteId);
-			break;
-		case 90:
-			write_sprite_data(XPOS, YPOS, 15, 255, tileSizeClipping(96), tileSizeNB(304), (const PTILEMAP)&logo_90);
-			set_current_sprite(curSpriteId);
-			break;
-		case 89:
-			write_sprite_data(XPOS, YPOS, 15, 255, tileSizeClipping(96), tileSizeNB(304), (const PTILEMAP)&logo_89);
-			set_current_sprite(curSpriteId);
-			break;
-		case 88:
-			write_sprite_data(XPOS, YPOS, 15, 255, tileSizeClipping(96), tileSizeNB(304), (const PTILEMAP)&logo_88);
-			set_current_sprite(curSpriteId);
-			break;
-		case 87:
-			write_sprite_data(XPOS, YPOS, 15, 255, tileSizeClipping(96), tileSizeNB(304), (const PTILEMAP)&logo_87);
-			set_current_sprite(curSpriteId);
-			break;
-		case 86:
-			write_sprite_data(XPOS, YPOS, 15, 255, tileSizeClipping(96), tileSizeNB(304), (const PTILEMAP)&logo_86);
-			set_current_sprite(curSpriteId);
-			break;
-		case 85:
-			write_sprite_data(XPOS, YPOS, 15, 255, tileSizeClipping(96), tileSizeNB(304), (const PTILEMAP)&logo_85);
-			set_current_sprite(curSpriteId);
-			break;
-		case 84:
-			write_sprite_data(XPOS, YPOS, 15, 255, tileSizeClipping(96), tileSizeNB(304), (const PTILEMAP)&logo_84);
-			set_current_sprite(curSpriteId);
-			break;
-		case 83:
-			write_sprite_data(XPOS, YPOS, 15, 255, tileSizeClipping(96), tileSizeNB(304), (const PTILEMAP)&logo_83);
-			set_current_sprite(curSpriteId);
-			break;
-		case 82:
-			write_sprite_data(XPOS, YPOS, 15, 255, tileSizeClipping(96), tileSizeNB(304), (const PTILEMAP)&logo_82);
-			set_current_sprite(curSpriteId);
-			break;
-		case 81:
-			write_sprite_data(XPOS, YPOS, 15, 255, tileSizeClipping(96), tileSizeNB(304), (const PTILEMAP)&logo_81);
-			set_current_sprite(curSpriteId);
-			break;
-		case 80:
-			write_sprite_data(XPOS, YPOS, 15, 255, tileSizeClipping(96), tileSizeNB(304), (const PTILEMAP)&logo_80);
-			set_current_sprite(curSpriteId);
-			break;
-		case 79:
-			write_sprite_data(XPOS, YPOS, 15, 255, tileSizeClipping(96), tileSizeNB(304), (const PTILEMAP)&logo_79);
-			set_current_sprite(curSpriteId);
-			break;
-		case 78:
-			write_sprite_data(XPOS, YPOS, 15, 255, tileSizeClipping(96), tileSizeNB(304), (const PTILEMAP)&logo_78);
-			set_current_sprite(curSpriteId);
-			break;
-		case 77:
-			write_sprite_data(XPOS, YPOS, 15, 255, tileSizeClipping(96), tileSizeNB(304), (const PTILEMAP)&logo_77);
-			set_current_sprite(curSpriteId);
-			break;
+		//case 100:
+		//	write_sprite_data(XPOS, YPOS, 15, 255, tileSizeClipping(96), tileSizeNB(304), (const PTILEMAP)&logo);
+		//	set_current_sprite(curSpriteId);
+		//	break;
+		//case 99:
+		//	write_sprite_data(XPOS, YPOS, 15, 255, tileSizeClipping(96), tileSizeNB(304), (const PTILEMAP)&logo_99);
+		//	set_current_sprite(curSpriteId);
+		//	break;
+		//case 98:
+		//	write_sprite_data(XPOS, YPOS, 15, 255, tileSizeClipping(96), tileSizeNB(304), (const PTILEMAP)&logo_98);
+		//	set_current_sprite(curSpriteId);
+		//	break;
+		//case 97:
+		//	write_sprite_data(XPOS, YPOS, 15, 255, tileSizeClipping(96), tileSizeNB(304), (const PTILEMAP)&logo_97);
+		//	set_current_sprite(curSpriteId);
+		//	break;
+		//case 96:
+		//	write_sprite_data(XPOS, YPOS, 15, 255, tileSizeClipping(96), tileSizeNB(304), (const PTILEMAP)&logo_96);
+		//	set_current_sprite(curSpriteId);
+		//	break;
+		//case 95:
+		//	write_sprite_data(XPOS, YPOS, 15, 255, tileSizeClipping(96), tileSizeNB(304), (const PTILEMAP)&logo_95);
+		//	set_current_sprite(curSpriteId);
+		//	break;
+		//case 94:
+		//	write_sprite_data(XPOS, YPOS, 15, 255, tileSizeClipping(96), tileSizeNB(304), (const PTILEMAP)&logo_94);
+		//	set_current_sprite(curSpriteId);
+		//	break;
+		//case 93:
+		//	write_sprite_data(XPOS, YPOS, 15, 255, tileSizeClipping(96), tileSizeNB(304), (const PTILEMAP)&logo_93);
+		//	set_current_sprite(curSpriteId);
+		//	break;
+		//case 92:
+		//	write_sprite_data(XPOS, YPOS, 15, 255, tileSizeClipping(96), tileSizeNB(304), (const PTILEMAP)&logo_92);
+		//	set_current_sprite(curSpriteId);
+		//	break;
+		//case 91:
+		//	write_sprite_data(XPOS, YPOS, 15, 255, tileSizeClipping(96), tileSizeNB(304), (const PTILEMAP)&logo_91);
+		//	set_current_sprite(curSpriteId);
+		//	break;
+		//case 90:
+		//	write_sprite_data(XPOS, YPOS, 15, 255, tileSizeClipping(96), tileSizeNB(304), (const PTILEMAP)&logo_90);
+		//	set_current_sprite(curSpriteId);
+		//	break;
+		//case 89:
+		//	write_sprite_data(XPOS, YPOS, 15, 255, tileSizeClipping(96), tileSizeNB(304), (const PTILEMAP)&logo_89);
+		//	set_current_sprite(curSpriteId);
+		//	break;
+		//case 88:
+		//	write_sprite_data(XPOS, YPOS, 15, 255, tileSizeClipping(96), tileSizeNB(304), (const PTILEMAP)&logo_88);
+		//	set_current_sprite(curSpriteId);
+		//	break;
+		//case 87:
+		//	write_sprite_data(XPOS, YPOS, 15, 255, tileSizeClipping(96), tileSizeNB(304), (const PTILEMAP)&logo_87);
+		//	set_current_sprite(curSpriteId);
+		//	break;
+		//case 86:
+		//	write_sprite_data(XPOS, YPOS, 15, 255, tileSizeClipping(96), tileSizeNB(304), (const PTILEMAP)&logo_86);
+		//	set_current_sprite(curSpriteId);
+		//	break;
+		//case 85:
+		//	write_sprite_data(XPOS, YPOS, 15, 255, tileSizeClipping(96), tileSizeNB(304), (const PTILEMAP)&logo_85);
+		//	set_current_sprite(curSpriteId);
+		//	break;
+		//case 84:
+		//	write_sprite_data(XPOS, YPOS, 15, 255, tileSizeClipping(96), tileSizeNB(304), (const PTILEMAP)&logo_84);
+		//	set_current_sprite(curSpriteId);
+		//	break;
+		//case 83:
+		//	write_sprite_data(XPOS, YPOS, 15, 255, tileSizeClipping(96), tileSizeNB(304), (const PTILEMAP)&logo_83);
+		//	set_current_sprite(curSpriteId);
+		//	break;
+		//case 82:
+		//	write_sprite_data(XPOS, YPOS, 15, 255, tileSizeClipping(96), tileSizeNB(304), (const PTILEMAP)&logo_82);
+		//	set_current_sprite(curSpriteId);
+		//	break;
+		//case 81:
+		//	write_sprite_data(XPOS, YPOS, 15, 255, tileSizeClipping(96), tileSizeNB(304), (const PTILEMAP)&logo_81);
+		//	set_current_sprite(curSpriteId);
+		//	break;
+		//case 80:
+		//	write_sprite_data(XPOS, YPOS, 15, 255, tileSizeClipping(96), tileSizeNB(304), (const PTILEMAP)&logo_80);
+		//	set_current_sprite(curSpriteId);
+		//	break;
+		//case 79:
+		//	write_sprite_data(XPOS, YPOS, 15, 255, tileSizeClipping(96), tileSizeNB(304), (const PTILEMAP)&logo_79);
+		//	set_current_sprite(curSpriteId);
+		//	break;
+		//case 78:
+		//	write_sprite_data(XPOS, YPOS, 15, 255, tileSizeClipping(96), tileSizeNB(304), (const PTILEMAP)&logo_78);
+		//	set_current_sprite(curSpriteId);
+		//	break;
+		//case 77:
+		//	write_sprite_data(XPOS, YPOS, 15, 255, tileSizeClipping(96), tileSizeNB(304), (const PTILEMAP)&logo_77);
+		//	set_current_sprite(curSpriteId);
+		//	break;
 		case 76:
 			write_sprite_data(XPOS, YPOS, 15, 255, tileSizeClipping(96), tileSizeNB(304), (const PTILEMAP)&logo_76);
 			set_current_sprite(curSpriteId);

@@ -56,12 +56,14 @@ gcc -I%NEODEV%\m68k\include -m68000 -O3 -Wall -fomit-frame-pointer -ffast-math -
 gcc -I%NEODEV%\m68k\include -m68000 -O3 -Wall -fomit-frame-pointer -ffast-math -fno-builtin -nostartfiles -nodefaultlibs -D__cd__ -c logoEffect.c -o %NEODEV%\tmp\logoEffect.o 2>>%buildErrLog%
 gcc -I%NEODEV%\m68k\include -m68000 -O3 -Wall -fomit-frame-pointer -ffast-math -fno-builtin -nostartfiles -nodefaultlibs -D__cd__ -c neo_texter.c -o %NEODEV%\tmp\neo_texter.o 2>>%buildErrLog%
 gcc -I%NEODEV%\m68k\include -m68000 -O3 -Wall -fomit-frame-pointer -ffast-math -fno-builtin -nostartfiles -nodefaultlibs -D__cd__ -c snowfield.c -o %NEODEV%\tmp\snowfield.o 2>>%buildErrLog%
+gcc -I%NEODEV%\m68k\include -m68000 -O3 -Wall -fomit-frame-pointer -ffast-math -fno-builtin -nostartfiles -nodefaultlibs -D__cd__ -c triangles.c -o %NEODEV%\tmp\triangles.o 2>>%buildErrLog%
+gcc -I%NEODEV%\m68k\include -m68000 -O3 -Wall -fomit-frame-pointer -ffast-math -fno-builtin -nostartfiles -nodefaultlibs -D__cd__ -c backdropcolor.c -o %NEODEV%\tmp\backdropcolor.o 2>>%buildErrLog%
 
 rem gfx definition
 call build_gfx.bat
 
 @REM Link
-gcc -L%NEODEV%\m68k\lib -m68000 -O3 -Wall -fomit-frame-pointer -ffast-math -fno-builtin -nostartfiles -nodefaultlibs -D__cd__ -Wl,-T%NEODEV%\src\system\neocd.x %NEODEV%\tmp\crt0_cd.o %NEODEV%\tmp\main.o %NEODEV%\tmp\neo_core.o %NEODEV%\tmp\neo_db.o %NEODEV%\tmp\logoEffect.o %NEODEV%\tmp\neo_texter.o %NEODEV%\tmp\snowfield.o %gfxObjectList% %NEODEV%\tmp\palettes.o -lcddactrl -lmath -linput -lvideo -lc -lgcc -o test.o
+gcc -L%NEODEV%\m68k\lib -m68000 -O3 -Wall -fomit-frame-pointer -ffast-math -fno-builtin -nostartfiles -nodefaultlibs -D__cd__ -Wl,-T%NEODEV%\src\system\neocd.x %NEODEV%\tmp\crt0_cd.o %NEODEV%\tmp\main.o %NEODEV%\tmp\neo_core.o %NEODEV%\tmp\neo_db.o %NEODEV%\tmp\logoEffect.o %NEODEV%\tmp\neo_texter.o %NEODEV%\tmp\snowfield.o %NEODEV%\tmp\palettes.o %NEODEV%\tmp\triangles.o %NEODEV%\tmp\backdropcolor.o %gfxObjectList% -lcddactrl -lmath -linput -lvideo -lc -lgcc -o test.o
 
 @REM Pad program rom
 objcopy -O binary test.o test.prg
