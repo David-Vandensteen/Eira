@@ -11,11 +11,12 @@
 #include "triangles.h"
 #include "backdropcolor.h"
 
-//#define TRIANGLES_ON
-//#define LOGO
-//#define TEXT_ON
-//#define SNOW
-#define STEPDB_ON
+#define TRIANGLES_ON
+#define LOGO
+#define TEXT_ON
+#define SNOW
+//#define TEXTERDB_ON
+//#define STEPDB_ON
 
 
 extern PALETTE	palettes[];
@@ -76,15 +77,17 @@ int main(void){
 	triangle03U_id = write_sprite_data(0, 0, 15, 255, tileSizeClipping(48), tileSizeNB(512), (const PTILEMAP)&triangle03up);
 	triangle02U_id = write_sprite_data(0, 0, 15, 255, tileSizeClipping(32), tileSizeNB(512), (const PTILEMAP)&triangle02up);
 	triangle01U_id = write_sprite_data(0, 0, 15, 255, tileSizeClipping(16), tileSizeNB(512), (const PTILEMAP)&triangle01up);
-	triangle03D_id =  write_sprite_data(0, (FIXED)triangle03D_y, 15, 255, tileSizeClipping(48), tileSizeNB(512), (const PTILEMAP)&triangle03down);
-	triangle02D_id =  write_sprite_data(0, (FIXED)triangle02D_y, 15, 255, tileSizeClipping(32), tileSizeNB(512), (const PTILEMAP)&triangle02down);
-	triangle01D_id =  write_sprite_data(0, (FIXED)triangle01D_y, 15, 255, tileSizeClipping(16), tileSizeNB(512), (const PTILEMAP)&triangle01down);
+	triangle03D_id = write_sprite_data(0, (FIXED)triangle03D_y, 15, 255, tileSizeClipping(48), tileSizeNB(512), (const PTILEMAP)&triangle03down);
+	triangle02D_id = write_sprite_data(0, (FIXED)triangle02D_y, 15, 255, tileSizeClipping(32), tileSizeNB(512), (const PTILEMAP)&triangle02down);
+	triangle01D_id = write_sprite_data(0, (FIXED)triangle01D_y, 15, 255, tileSizeClipping(16), tileSizeNB(512), (const PTILEMAP)&triangle01down);
 	#endif
 
 	#ifdef TEXT_ON
-	//#define TEXT00 "** NEO GEO CD INTRO RELEASED BY RESISTANCE ** MUSIC AND CODE NAINAIN ** GRAPHICS AND DESIGN GRASS THIS IS OUR FIRST RELEASE IN NEO GEO SCENE WWW.RESISTANCE.NO ENJOY!                                           "
-	//FIX a texter bug ... a strange space between c & ouleurs
-	#define TEXT00 "LES TILES DU FIX NE PEUVENT UTILISER QUE LES PALETTES 0 A 15, SOIT LES 256 PREMIERES COULEURS …   **LES SPRITES PEUVENT UTILISER TOUTES LES PALETTE 0 A 255, SOIT TOUTES LES 4096 COULEURS.                                                         "
+//	#define TEXT00 "** NEO GEO CD INTRO RELEASED BY RESISTANCE ** MUSIC AND CODE NAINAIN ** GRAPHICS AND DESIGN GRASS THIS IS OUR FIRST RELEASE IN NEO GEO SCENE WWW.RESISTANCE.NO ENJOY!                                             "
+
+	#define TEXT00 "*** THE BOYS FROM RSE BACK ONCE AGAIN *** THIS TIME ON A BRAND NEW VIRGIN DEMO PLATFORM,THE MIGHTY NEO GEO CD! ENJOY THIS LITTLE ONE SCRENER,NOW GO MAKE YOURSELF FOR THIS BEAUTIFUL PLATFORM ***          * TEXT * 4PLAY             * GRAPHICS AND DESIGN * GRASS               * CODE AND MUSIC * NAINAIN                                           "
+	
+//The boys from RSE back once again, this time on a brand new virgin demo platform, the mighty Neo Geo CD! Enjoy this litle one screener, now go make one yourself for this beautifull platform :).
 	text = texter8Make(TEXT00, vec2intMake(328,100));
 	#endif
 	while(1){
@@ -99,17 +102,17 @@ int main(void){
 		triangle03Umove(triangle03U_id, &triangle03U_x, &triangle03U_yz, &triangle03U_zoomPol);
 		#endif
 		
-		#ifdef SNOW
-		snowFieldUpdate(&snowFieldBig);
-		snowFieldUpdate(&snowFieldMedium);
-		snowFieldUpdate(&snowFieldLittle);
-		#endif
-		
-		/* VBL CONDITIONS */
 		//texter sin
 		#ifdef TEXT_ON
 		if (_vbl_count % 2 == 0){
 			sinText++;
+		}
+		#endif
+		#ifdef SNOW
+		if(_vbl_count > 80){
+			snowFieldUpdate(&snowFieldBig);
+			snowFieldUpdate(&snowFieldMedium);
+			snowFieldUpdate(&snowFieldLittle);
 		}
 		#endif
 
@@ -118,18 +121,21 @@ int main(void){
 		#endif
 
 		//BACKDROP COLOR 
-		if (backdropColorIndex <= 15 && _vbl_count % 5 == 0){
+		if (backdropColorIndex <= 15 && _vbl_count % 13 == 0){
 			backdropColorNext(&backdropColorIndex);
 		}
 		
 		#ifdef TEXT_ON
 		if (_vbl_count > 200) {
 			texter8SinScrollEffect(&text, sinText);
-			//texter8SinScrollEffectDebug(text);
+			#ifdef TEXTERDB_ON
+			texter8SinScrollEffectDebug(text);
+			#endif
 		}
-		if(_vbl_count % 2000 == 0) { // TEXT RESTART
+		if(_vbl_count % 3000 == 0) { // TEXT RESTART
 			text.headPlaySpr = 0;
 			text.headPlayStr = 0;
+			text.isComplete = 0;
 		}
 		#endif
 		#ifdef LOGO

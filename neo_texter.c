@@ -12,8 +12,6 @@ texter texter8Make(char *string, vec2int pos){
     r.currentSpriteId = r.spriteId;
 	r.headPlayStr = 0;
 	r.headPlaySpr = 0;
-	r.size = vec2u16Make(16, 16);
-	r.zoom = vec2u16Make(7, 128);
 	r.string = string;
 	r.pos = pos;
 	r.charMaker = 8;
@@ -68,17 +66,6 @@ void texterOneAscii(WORD spriteId, WORD ascii, vec2int pos, vec2u16 size, vec2u1
 	}
 	//set_current_sprite(curSprite);
 }
-void texterUpdatePos(WORD spriteId, char *string, vec2s16 pos, vec2u16 size, WORD spacing){
-	WORD i = spriteId;
-	WORD j = 0; //char index
-	while (i < spriteId + texterCount(string)){
-		if (string[j] != 32) {
-			change_sprite_pos(i, pos.x + (j * spacing), pos.y, tileSizeClipping(size.y));
-			i++;
-		}
-		j++;
-	}
-}
 spr sprChar8Make(WORD spriteId,WORD ascii, vec2int pos){
 	spr r;
 	if (ascii != 32) {
@@ -104,7 +91,7 @@ void texterRemoveAt(texter *text, WORD arrayId){
         sprClear(text->sprs[arrayId].idSpr);
 		text->sprs[arrayId].idSpr = 0;
 		text->sprs[arrayId].pos = vec2intMakeZero();
-		if (text->headPlaySpr >= TEXTER_SPRITES_QTY ){
+		if (text->headPlaySpr >= TEXTER_SPRITES_QTY - 1){ //TEXTER QTY - 1
 			text->headPlaySpr = 0;
             text->currentSpriteId = text->spriteId;
 		}
@@ -112,7 +99,15 @@ void texterRemoveAt(texter *text, WORD arrayId){
 }
 WORD texter8SinScrollEffect(texter *text, WORD sin){
 	WORD i,j;
+	if(text->isComplete == 1){
+		return 1;
+	}
     if(text->headPlayStr > texterCount(text->string)){
+		for (i = 0; i <= TEXTER_SPRITES_QTY; i++) {
+			if(text->sprs[i].idSpr != 0) { sprClear(text->sprs[i].idSpr); }
+			text->sprs[i].idSpr = 0;
+		}
+		text->isComplete = 1;
         return 1;
     }
 	text->charMaker--;
@@ -125,7 +120,7 @@ WORD texter8SinScrollEffect(texter *text, WORD sin){
 	for (i = 0; i <= TEXTER_SPRITES_QTY; i++){
 		if (text->sprs[j].idSpr != 0){
 			text->sprs[j].pos.x--;
-			text->sprs[j].pos.y = (ifmuli(fsin((sin - i) * 8), 24) + 152); //128
+			text->sprs[j].pos.y = (ifmuli(fsin((sin - i) * 8), 24) + 148); //152
 			change_sprite_pos(text->sprs[j].idSpr, text->sprs[j].pos.x, text->sprs[j].pos.y, text->sprs[j].clipping);
 			if (text->sprs[j].pos.x <= -8){
 				texterRemoveAt(text, j);
@@ -141,13 +136,6 @@ void texter8SinScrollEffectDebug(texter text){
 		printWord(text.sprs[i].idSpr, vec2intMake(j, k));
 		k++;
 		if(k > 20){ k = 0; j += 3;}
-	}
-}
-void testerUpdateZoom(WORD spriteId, WORD count, vec2u16 size, WORD zoom){
-	WORD i = spriteId;
-	change_sprite_zoom(spriteId, zoom, mapTo_yz(zoom), size.x);
-	for (i = spriteId; i < spriteId + count; i++){
-		change_sprite_zoom(i, zoom, mapTo_yz(zoom), size.x);
 	}
 }
 WORD texterCount(char *string){

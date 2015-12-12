@@ -2,6 +2,7 @@
 #include <video.h>
 #include <math.h>
 #include "backdropcolor.h"
+#include "neo_db.h"
 
 void backdropColorNext(WORD *curColorTableIndex){
 	switch (*curColorTableIndex)

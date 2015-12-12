@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <video.h>
 
-#define TEXTER_SPRITES_QTY 43 //42
+#define TEXTER_SPRITES_QTY 44 //43
 extern TILEMAP fontA16[], fontB16[];
 typedef struct texter texter;
 struct texter{
@@ -13,8 +13,7 @@ struct texter{
 	WORD headPlayStr;
 	WORD headPlaySpr;
 	WORD charMaker;
-	vec2u16 size; //sprite size
-	vec2u16 zoom;
+	WORD isComplete;
 	vec2int pos;
 	spr sprs[TEXTER_SPRITES_QTY];
 	char *string;
@@ -25,7 +24,6 @@ spr sprChar8Make(WORD spriteId,WORD ascii, vec2int pos);
 void texterPush(texter *text);
 void texterRemoveAt(texter *text, WORD arrayId);
 void texterOneAscii(WORD spriteId,WORD ascii, vec2int pos, vec2u16 size, vec2u16 zoom);
-void testerUpdateZoom(WORD spriteId, WORD count, vec2u16 size, WORD zoom); // zoom 0...15
 void texterUpdatePosSin(texter *text, WORD sin);
 WORD texter8SinScrollEffect(texter *text, WORD sin);
 void texter8SinScrollEffectDebug(texter text);

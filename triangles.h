@@ -28,19 +28,19 @@
 
 #define	TRIANGLE01D_INIT	WORD		triangle01D_id; \
 							WORD		triangle01D_x = 0; \
-							FIXED		triangle01D_y = 212 * FIXEDCOEF; \
+							FIXED		triangle01D_y = 208 * FIXEDCOEF; \
 							WORD		triangle01D_yz = 0xFF; \
 							WORD		triangle01D_zoomPol = 0; \
 
 #define	TRIANGLE02D_INIT	WORD		triangle02D_id; \
 							WORD		triangle02D_x = 0; \
-							FIXED		triangle02D_y = 196 * FIXEDCOEF; \
+							FIXED		triangle02D_y = 192 * FIXEDCOEF; \
 							WORD		triangle02D_yz = 0xFF; \
 							WORD		triangle02D_zoomPol = 0; \
 
 #define	TRIANGLE03D_INIT	WORD		triangle03D_id; \
 							WORD		triangle03D_x = 0; \
-							FIXED		triangle03D_y = 180 * FIXEDCOEF; \
+							FIXED		triangle03D_y = 176 * FIXEDCOEF; \
 							WORD		triangle03D_yz = 0xFF; \
 							WORD		triangle03D_zoomPol = 0; \
 
