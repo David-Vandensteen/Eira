@@ -55,22 +55,6 @@ void backdropColorNext(WORD *curColorTableIndex){
 		BGCOLOR011
 			*curColorTableIndex += 1;
 		break;
-	case 12:
-		BGCOLOR012
-			*curColorTableIndex += 1;
-		break;
-	case 13:
-		BGCOLOR013
-			*curColorTableIndex += 1;
-		break;
-	case 14:
-		BGCOLOR014
-			*curColorTableIndex += 1;
-		break;
-	case 15:
-		BGCOLOR015
-			*curColorTableIndex += 1;
-		break;
 	default:
 		break;
 	}

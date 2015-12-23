@@ -27,8 +27,6 @@ texter texter8MakeZero(){
 	return r;
 }
 void texterOneAscii(WORD spriteId, WORD ascii, vec2int pos, vec2u16 size, vec2u16 zoom){
-	//Possible d'optimiser, rien q'en organisant differement le bitmap afin d'alleger les tests conditionnels
-
 	// ! - P	-> fontA	-> 33 - 80
 	// Q - Z	-> fontB	-> 81 - 90
 
@@ -40,31 +38,30 @@ void texterOneAscii(WORD spriteId, WORD ascii, vec2int pos, vec2u16 size, vec2u1
 	// ?		-> 63
 	// A - Z	-> 65 - 90
 	WORD spriteIndex = 0;
-	//WORD curSprite = get_current_sprite();
 	set_current_sprite(spriteId);
 
-	if (ascii >= 33 && ascii <= 79){//fontA
+	if (ascii >= 33 && ascii <= 78){//fontA
 		if (ascii == 33) {  spriteIndex = 0; }			// !
 		if (ascii == 42) {  spriteIndex = 1; }			// *
 		if (ascii == 44) {  spriteIndex = 2; }			// ,
-		if (ascii == 46) {	spriteIndex = 3; }			// .
-		if (ascii == 47) {  spriteIndex = 4; }			// /
-		if (ascii == 58) {  spriteIndex = 15; }			// :
-		if (ascii == 63) {  spriteIndex = 16; }			// ?
+		if (ascii == 45) {	spriteIndex = 3; }			// -
+		if (ascii == 46) {	spriteIndex = 4; }			// .
+		if (ascii == 47) {  spriteIndex = 5; }			// /
+		if (ascii == 58) {  spriteIndex = 16; }			// :
+		if (ascii == 63) {  spriteIndex = 17; }			// ?
 
 		if (ascii >= 48 && ascii <= 57){ // 0 - 9
-			spriteIndex = ascii - 43;
+			spriteIndex = ascii - 42;
 		}
-		if (ascii >= 65 && ascii <= 80){ // A - P
-			spriteIndex = ascii - 48;
+		if (ascii >= 65 && ascii <= 78){ // A - N
+			spriteIndex = ascii - 47;
 		}
 		if (ascii != 32) write_sprite_data(pos.x, pos.y, zoom.x, zoom.y, tileSizeClipping(size.x), tileSizeNB(size.y), (const PTILEMAP)&fontA16[spriteIndex]);
 	}
 	else{//fontB
-		spriteIndex = ascii - 80;
+		spriteIndex = ascii - 79;
 		if (ascii != 32) write_sprite_data(pos.x, pos.y, zoom.x, zoom.y, tileSizeClipping(size.x), tileSizeNB(size.y), (const PTILEMAP)&fontB16[spriteIndex]);
 	}
-	//set_current_sprite(curSprite);
 }
 spr sprChar8Make(WORD spriteId,WORD ascii, vec2int pos){
 	spr r;

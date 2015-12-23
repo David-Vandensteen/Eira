@@ -18,7 +18,6 @@
 //#define TEXTERDB_ON
 //#define STEPDB_ON
 
-
 extern PALETTE	palettes[];
 extern TILEMAP  triangle03down, triangle03up, triangle02down, triangle02up, triangle01down, triangle01up;
 
@@ -83,11 +82,9 @@ int main(void){
 	#endif
 
 	#ifdef TEXT_ON
-//	#define TEXT00 "** NEO GEO CD INTRO RELEASED BY RESISTANCE ** MUSIC AND CODE NAINAIN ** GRAPHICS AND DESIGN GRASS THIS IS OUR FIRST RELEASE IN NEO GEO SCENE WWW.RESISTANCE.NO ENJOY!                                             "
-
-	#define TEXT00 "*** THE BOYS FROM RSE BACK ONCE AGAIN *** THIS TIME ON A BRAND NEW VIRGIN DEMO PLATFORM,THE MIGHTY NEO GEO CD! ENJOY THIS LITTLE ONE SCRENER,NOW GO MAKE YOURSELF FOR THIS BEAUTIFUL PLATFORM ***          * TEXT * 4PLAY             * GRAPHICS AND DESIGN * GRASS               * CODE AND MUSIC * NAINAIN                                           "
+		
+	#define TEXT00 "*** THE BOYS FROM RSE BACK ONCE AGAIN ***  THIS TIME ON THE MIGHTY NEO GEO CD! ENJOY THIS LITTLE ONE SCRENER, NOW GO MAKE ONE YOURSELF FOR THIS BEAUTIFUL PLATFORM ***                       * TEXT * 4PLAY                            * GRAPHICS AND DESIGN * GRASS        * CODE AND MUSIC * NAINAIN           GRASS SEND A PERSONNAL GREETING TO NEO-GEO.HU * THE HUNGARIAN NEO-GEO COMMUNITY.                                              "
 	
-//The boys from RSE back once again, this time on a brand new virgin demo platform, the mighty Neo Geo CD! Enjoy this litle one screener, now go make one yourself for this beautifull platform :).
 	text = texter8Make(TEXT00, vec2intMake(328,100));
 	#endif
 	while(1){
@@ -121,7 +118,7 @@ int main(void){
 		#endif
 
 		//BACKDROP COLOR 
-		if (backdropColorIndex <= 15 && _vbl_count % 13 == 0){
+		if (backdropColorIndex <= 15 && _vbl_count % 20 == 0){
 			backdropColorNext(&backdropColorIndex);
 		}
 		
@@ -132,7 +129,7 @@ int main(void){
 			texter8SinScrollEffectDebug(text);
 			#endif
 		}
-		if(_vbl_count % 3000 == 0) { // TEXT RESTART
+		if(_vbl_count % 4200 == 0) { // TEXT RESTART
 			text.headPlaySpr = 0;
 			text.headPlayStr = 0;
 			text.isComplete = 0;
