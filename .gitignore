@@ -335,16 +335,6 @@ Release/eira_rse_ngcd_preview006.zip
 
 Release/eira_rse_ngcd/_convertAudio.bat
 
-Release/eira_rse_ngcd/_Readme.txt
-
-Release/eira_rse_ngcd/Eira_mp3.cue
-
-Release/eira_rse_ngcd/Eira_wav.cue
-
-Release/eira_rse_ngcd/Eira.iso
-
-Release/eira_rse_ngcd/Eira.mp3
-
 Release/eira_rse_ngcd/Eira.wav
 
 Release/eira_rse_ngcd/sox/libflac-8.dll
