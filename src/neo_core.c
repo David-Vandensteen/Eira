@@ -161,18 +161,7 @@ joystick joystickMake(){
 	j.up = j.left = j.right = j.down = j.a = 0;
 	return j;
 }
-void joystickUpdate(joystick *joy){
-	WORD joyState;
-	joyState = poll_joystick(PORT1, READ_BIOS);
-	if (joyState & JOY_UP)		{ joy->up = 1; }
-	else { joy->up = 0; }
-	if (joyState & JOY_DOWN)	{ joy->down = 1; }
-	else { joy->down = 0; }
-	if (joyState & JOY_LEFT)	{ joy->left = 1; }
-	else { joy->left = 0; }
-	if (joyState & JOY_A)		{ joy->a = 1; }
-	else { joy->a = 0; }	//LEFT-CTRL
-}
+
 void pause(WORD vblTempo){
 	WORD i = 0;
 	for (i = 0; i <= vblTempo; i++){
@@ -183,16 +172,16 @@ void pause(WORD vblTempo){
 
 /*	SPRITE NEOGEO */
 spr sprMake(WORD idSpr, vec2int pos, vec2int posInc, vec2u16 size, WORD vblSkipTranslation, vec2u16 zoom, vec2int zoomInc, WORD vblSkipZoom){
-    spr rSprite;   
+    spr rSprite;
     rSprite.pos = pos;
     rSprite.posInc = posInc;
     rSprite.zoom = zoom;
-    rSprite.zoomInc = zoomInc;    
+    rSprite.zoomInc = zoomInc;
     rSprite.idSpr = idSpr;
     rSprite.size = size;
     rSprite.nb = size.x/16;
     rSprite.clipping = size.y/16;
-    rSprite.vblSkipTranslation = vblSkipTranslation;    
+    rSprite.vblSkipTranslation = vblSkipTranslation;
     rSprite.vblSkipZoom = vblSkipZoom;
     rSprite.firstUpdate = 0;
     return rSprite;
@@ -211,21 +200,21 @@ spr sprMakeZero(){
     rSprite.vblSkipZoom = 0;
     rSprite.firstUpdate = 0;
     return rSprite;
-    
+
 }
 spr sprMakeDefault(WORD idSpr){
 	spr rSprite;
 	rSprite.idSpr = idSpr;
 	rSprite.size = vec2u16Make(320, 224);
-    rSprite.nb = rSprite.size.x/16;
-    rSprite.clipping = rSprite.size.y/16;
+	rSprite.nb = rSprite.size.x/16;
+	rSprite.clipping = rSprite.size.y/16;
 	rSprite.pos = vec2intMakeZero();
 	rSprite.posInc = vec2intMakeZero();
 	rSprite.vblSkipTranslation = 0;
 	rSprite.zoom = vec2u16Make(SIZE_SPR_DEFAULT);
 	rSprite.zoomInc = vec2intMakeZero();
 	rSprite.vblSkipZoom = 0;
-    rSprite.firstUpdate = 0;
+	rSprite.firstUpdate = 0;
 	return rSprite;
 }
 DWORD write_sprite_data_nn(spr sprite,const PTILEMAP tilemap){

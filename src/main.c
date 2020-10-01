@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <video.h>
 #include <input.h>
-#include <cddactrl.h>
+//#include <cddactrl.h>
 #include <math.h>
 #include "neo_core.h"
 #include "neo_db.h"
@@ -46,8 +46,8 @@ int main(void){
 	#endif
 
     /* INIT */
-	playcdda();
-	setpalette(0, 60, (const PPALETTE)&palettes);	
+	// playcdda();
+	setpalette(0, 60, (const PPALETTE)&palettes);
 	backdropColorNext(&backdropColorIndex);
 
 	#ifdef STEPDB_ON
@@ -61,7 +61,7 @@ int main(void){
 	#ifdef SNOW
 	snowFieldBig = snowFieldMake(1);
 	#endif
-	
+
 	#ifdef LOGO
 	logoZoomEffect.spriteId = get_current_sprite();
 	logoZoomEffectUpdate(&logoZoomEffect, sinLogo);
@@ -71,7 +71,7 @@ int main(void){
 	snowFieldLittle = snowFieldMake(3);
 	snowFieldMedium = snowFieldMake(2);
 	#endif
-		
+
 	#ifdef TRIANGLES_ON
 	triangle03U_id = write_sprite_data(0, 0, 15, 255, tileSizeClipping(48), tileSizeNB(512), (const PTILEMAP)&triangle03up);
 	triangle02U_id = write_sprite_data(0, 0, 15, 255, tileSizeClipping(32), tileSizeNB(512), (const PTILEMAP)&triangle02up);
@@ -82,9 +82,9 @@ int main(void){
 	#endif
 
 	#ifdef TEXT_ON
-		
+
 	#define TEXT00 "*** THE BOYS FROM RSE BACK ONCE AGAIN ***  THIS TIME ON THE MIGHTY NEO GEO CD! ENJOY THIS LITTLE ONE SCRENER, NOW GO MAKE ONE YOURSELF FOR THIS BEAUTIFUL PLATFORM ***                       * TEXT * 4PLAY                            * GRAPHICS AND DESIGN * GRASS        * CODE AND MUSIC * NAINAIN           GRASS SEND A PERSONNAL GREETING TO NEO-GEO.HU * THE HUNGARIAN NEO-GEO COMMUNITY.                                              "
-	
+
 	text = texter8Make(TEXT00, vec2intMake(328,100));
 	#endif
 	while(1){
@@ -98,7 +98,7 @@ int main(void){
 		triangle02Umove(triangle02U_id, &triangle02U_x, &triangle02U_yz, &triangle02U_zoomPol);
 		triangle03Umove(triangle03U_id, &triangle03U_x, &triangle03U_yz, &triangle03U_zoomPol);
 		#endif
-		
+
 		//texter sin
 		#ifdef TEXT_ON
 		if (_vbl_count % 2 == 0){
@@ -117,11 +117,11 @@ int main(void){
 		logoZoomEffectUpdate(&logoZoomEffect, sinLogo);
 		#endif
 
-		//BACKDROP COLOR 
+		//BACKDROP COLOR
 		if (backdropColorIndex <= 15 && _vbl_count % 20 == 0){
 			backdropColorNext(&backdropColorIndex);
 		}
-		
+
 		#ifdef TEXT_ON
 		if (_vbl_count > 200) {
 			texter8SinScrollEffect(&text, sinText);

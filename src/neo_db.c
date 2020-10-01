@@ -27,6 +27,7 @@ void printChar(char value, vec2int pos){
 	textoutf(pos.x, pos.y, 0, 0, " %c ", value);
 }
 
+/*
 vblStepByStep vblStepByStepMake(){
 	vblStepByStep r;
 	r.isActive = 0;
@@ -45,3 +46,4 @@ void vblStepByStepUpdate(vblStepByStep *vblSbS){
 		}
 	}
 }
+*/
