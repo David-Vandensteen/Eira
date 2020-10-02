@@ -11,6 +11,7 @@
 #define TRIANGLES_ZOOMINC			2
 #define TRIANGLES_XINC				-1
 
+
 #define TRIANGLE01U_INIT 	WORD		triangle01U_id; \
 							WORD		triangle01U_x = 0; \
 							WORD		triangle01U_yz = 0xFF; \

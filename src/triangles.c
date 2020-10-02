@@ -13,6 +13,7 @@ void triangle01Umove(WORD id, WORD *x, WORD *yz, WORD *zoomPol){
 	if (*yz <= 0x00 + TRIANGLES_ZOOMINC) *zoomPol = 1;
 	if (*yz >= 0xFF - TRIANGLES_ZOOMINC) *zoomPol = 0;
 }
+
 void triangle02Umove(WORD id, WORD *x, WORD *yz, WORD *zoomPol){
 	if (*zoomPol == 0) *yz = (*yz - (1 * TRIANGLES_ZOOMINC)) & 0xFF;
 	if (*zoomPol == 1) *yz = (*yz + (1 * TRIANGLES_ZOOMINC)) & 0xFF;
@@ -22,6 +23,7 @@ void triangle02Umove(WORD id, WORD *x, WORD *yz, WORD *zoomPol){
 	if (*yz <= 0x00 + TRIANGLES_ZOOMINC) *zoomPol = 1;
 	if (*yz >= 0xFF - TRIANGLES_ZOOMINC) *zoomPol = 0;
 }
+
 void triangle03Umove(WORD id, WORD *x, WORD *yz, WORD *zoomPol){
 	if (*zoomPol == 0) *yz = (*yz - (1 * TRIANGLES_ZOOMINC)) & 0xFF;
 	if (*zoomPol == 1) *yz = (*yz + (1 * TRIANGLES_ZOOMINC)) & 0xFF;
@@ -31,6 +33,7 @@ void triangle03Umove(WORD id, WORD *x, WORD *yz, WORD *zoomPol){
 	if (*yz <= 0x00 + TRIANGLES_ZOOMINC) *zoomPol = 1;
 	if (*yz >= 0xFF - TRIANGLES_ZOOMINC) *zoomPol = 0;
 }
+
 void triangle01Dmove(WORD id, WORD *x, FIXED *y, WORD *yz, WORD *zoomPol){
 	if (*zoomPol == 0) {
 		*y = fadd(*y, 4096 * TRIANGLES_ZOOMINC);
@@ -61,6 +64,7 @@ void triangle02Dmove(WORD id, WORD *x, FIXED *y, WORD *yz, WORD *zoomPol){
 	if (*yz <= 0x00 + TRIANGLES_ZOOMINC) *zoomPol = 1;
 	if (*yz >= 0xFF - TRIANGLES_ZOOMINC) *zoomPol = 0;
 }
+
 void triangle03Dmove(WORD id, WORD *x, FIXED *y, WORD *yz, WORD *zoomPol){
 	if (*zoomPol == 0) {
 		*y = fadd(*y, 12288 * TRIANGLES_ZOOMINC);
