@@ -57,25 +57,13 @@ set gc3=%gc3% -nostartfiles -nodefaultlibs -D__cd__ -c logoEffect.c -o %buildTem
 set gc4=gcc -I%NEODEV%\m68k\include -m68000 -O3 -Wall -fomit-frame-pointer -ffast-math -fno-builtin
 set gc4=%gc4% -nostartfiles -nodefaultlibs -D__cd__ -c neo_texter.c -o %buildTemp%\neo_texter.o 2>>%buildErrLog%
 
-set gc5=gcc -I%NEODEV%\m68k\include -m68000 -O3 -Wall -fomit-frame-pointer -ffast-math -fno-builtin
-set gc5=%gc5% -nostartfiles -nodefaultlibs -D__cd__ -c snowfield.c -o %buildTemp%\snowfield.o 2>>%buildErrLog%
-
-set gc6=gcc -I%NEODEV%\m68k\include -m68000 -O3 -Wall -fomit-frame-pointer -ffast-math -fno-builtin
-set gc6=%gc6% -nostartfiles -nodefaultlibs -D__cd__ -c triangles.c -o %buildTemp%\triangles.o 2>>%buildErrLog%
-
-set gc7=gcc -I%NEODEV%\m68k\include -m68000 -O3 -Wall -fomit-frame-pointer -ffast-math -fno-builtin
-set gc7=%gc7% -nostartfiles -nodefaultlibs -D__cd__ -c backdropcolor.c -o %buildTemp%\backdropcolor.o 2>>%buildErrLog%
-
-%gc0% && %gc1% && %gc2% && %gc3% && %gc4% && %gc5% && %gc6% && %gc7%
+%gc0% && %gc1% && %gc2% && %gc3% && %gc4%
 
 if not exist %buildTemp%\main.o echo build error && goto :error
 if not exist %buildTemp%\neo_core.o echo build error && goto :error
 if not exist %buildTemp%\neo_db.o echo build error && goto :error
 if not exist %buildTemp%\logoEffect.o echo build error && goto :error
 if not exist %buildTemp%\neo_texter.o echo build error && goto :error
-if not exist %buildTemp%\snowfield.o echo build error && goto :error
-if not exist %buildTemp%\triangles.o echo build error && goto :error
-if not exist %buildTemp%\backdropcolor.o echo build error && goto :error
 
 :define-gfx
 set gfxList=triangle03down triangle03up triangle02down triangle02up triangle01down triangle01up snow
@@ -114,7 +102,7 @@ for %%i in (%gfxList%) do bin2elf %buildTemp%\%%i.map %%i %buildTemp%\%%i.o
 set link=gcc -L%NEODEV%\m68k\lib -m68000 -O3 -Wall -fomit-frame-pointer -ffast-math -fno-builtin -nostartfiles
 set link=%link% -nodefaultlibs -D__cd__ -Wl,-T%NEODEV%\src\system\neocd.x %buildTemp%\crt0_cd.o %buildTemp%\main.o
 set link=%link% %buildTemp%\neo_core.o %buildTemp%\neo_db.o %buildTemp%\logoEffect.o %buildTemp%\neo_texter.o
-set link=%link% %buildTemp%\snowfield.o %buildTemp%\palettes.o %buildTemp%\triangles.o %buildTemp%\backdropcolor.o
+set link=%link% %buildTemp%\palettes.o
 set link=%link% %gfxObjectList% -lcddactrl -lmath -linput -lvideo -lc -lgcc -o %buildTemp%\DEMO.o
 
 %link%

@@ -6,7 +6,7 @@
 #include "logoEffect.h"
 
 #define XPOS	10  + (ifmuli(fcos(sin),50))
-#define	YPOS	40  + (ifmuli(fsin(sin),18)) //50
+#define	YPOS	40  + (ifmuli(fsin(sin),18))
 
 logoZoomEffect logoZoomEffectMake(WORD spriteId, WORD zoom, WORD vblSkip){
 	logoZoomEffect r;
@@ -33,7 +33,7 @@ void logoZoomEffectUpdate(logoZoomEffect *logozoomeffect, WORD sin){
 														15, (255 - logozoomeffect->zoom * 2) + 90,
 														tileSizeClipping(96), tileSizeNB(304),
 														(const PTILEMAP)&shadow);
-		
+
 	if (logozoomeffect->zoom != logozoomeffect->zoomLast){
 		switch (logozoomeffect->zoom){
 		case 76:
