@@ -13,10 +13,7 @@ set outputIso=%output%\%demoName%.iso
 set outputCue=%output%\%demoName%.cue
 
 if "%1"=="run" (
-  echo Trying to kill raine32.exe process...
-  powershell "try { taskkill /IM raine32.exe /f } catch { }; exit 0"
   echo Choose Play Game on Raine menu
-  timeout /t 2
   %appdata%\neocore\raine\raine32.exe %outputIso%
   popd
   goto :end
