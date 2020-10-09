@@ -2,11 +2,7 @@
 #include <math.h>
 #include <video.h>
 #include <input.h>
-//#include <cddactrl.h>
 #include <math.h>
-#include "neo_core.h"
-#include "neo_db.h"
-//#include "neo_texter.h"
 
 #define bool BOOL
 #define true TRUE
@@ -25,36 +21,39 @@
 #define DIV32    >> 5
 #define DIV64    >> 6
 
-#define itofix(value)                value * FIXEDCOEF
-#define clipping_tile_size(height)   (height DIV16)
+#define itofix(value)                 value * 65536
+#define clipping_tile_size(height)    (height DIV16)
 #define  tile_size_number(width)      (width DIV16)
-#define shrunk_extract_x(value)     value >> 8
-#define shrunk_extract_y(value)     value
+#define shrunk_extract_x(value)       value >> 8
 
 #define RAND320     rand() % 320
 #define RAND224     rand() % 224
 #define RAND640     rand() % 640
 
-#define SNOW_MAX      20
+#define SNOW_MAX      25
 #define SNOW_X_OFFSET 120
 #define SNOW_Y_OFFSET 224
 
 #define LOGO_X_MOVE  10  + (ifmuli(fcos(_vbl_count),50))
 #define LOGO_Y_MOVE  40  + (ifmuli(fsin(_vbl_count),18))
 
-#define TEXTER_SPRITES_MAX  43
-#define TEXT_SIZE           432
+#define TEXTER_SPRITES_MAX  39
+#define TEXT_SIZE           412
 #define TEXT "*** THE BOYS FROM RSE BACK ONCE AGAIN *** THIS TIME ON THE MIGHTY NEO GEO CD! ENJOY THIS LITTLE ONE SCRENER, NOW GO MAKE ONE YOURSELF FOR THIS BEAUTIFUL PLATFORM ***                 * TEXT * 4PLAY                 * GRAPHICS AND DESIGN * GRASS        * CODE AND MUSIC * NAINAIN           GRASS SEND A PERSONNAL GREETING TO NEO-GEO.HU * THE HUNGARIAN NEO-GEO COMMUNITY.                                              "
-// #define TEXT "ABABABABABABBABABABABABBABABABABBABABABBABABABABABABBABABABABABABBABABABABABBABABABABABBABABABBABABABABBABABABABBABABABABABABABBABABABABABABABABABABABBABABABBABABABABBABABBABABABABABBABABABBABABABABBABABABBABABABBABABABBABABABBABABABBABABABABABBABABABABABABABBABABABABBABABABABABBABABABBABABABBABABABABABABABBABABABBABABBABABBABABABBABBABABBABABBABABABBABABABBABABABABABABABABABABBABABABBABABABBABABABABABBABABABABA"
-
 #define TRIANGLE_MAX         6
 #define TRIANGLE_ZOOM_INC   2
+
+#define CDDA_PLAY                                 \
+                  asm("loop_track_02:");          \
+                  asm(" move.w #0x0002,%d0");     \
+                  asm(" tst.b  0x10F6D9");        \
+                  asm(" beq.s  loop_track_02");   \
+                  asm(" jsr  0xC0056A");          \
+
 #define TRIANGLES_ON
-#define LOGO
+#define LOGO_ON
 #define TEXT_ON
-#define SNOW
-//#define TEXTERDB_ON
-//#define STEPDB_ON
+#define SNOW_ON
 
 extern PALETTE palettes[];
 
@@ -71,8 +70,9 @@ extern TILEMAP
               fontA16[],
               fontB16[];
 
-#define SHRUNK_TABLE_SIZE      30
-#define LOGO_TABLE_TILES_SIZE 52
+#define SHRUNK_TABLE_SIZE       30
+#define LOGO_TABLE_TILES_SIZE   52
+
 static const int shrunk_table[SHRUNK_TABLE_SIZE] =  { 0x0, 0x1, 0x2, 0x3, 0x4, 0x5, 0x6, 0x7, 0x8, 0x9, 0xA, 0xB, 0xC, 0xD, 0xE, 0xF, 0xE, 0xD, 0xC, 0xB, 0xA, 0x9, 0x8, 0x7, 0x6, 0x5, 0x4, 0x3, 0x2, 0x1 };
 static TILEMAP *logo_tiles[LOGO_TABLE_TILES_SIZE] = { &logo_76, &logo_75, &logo_74, &logo_73, &logo_72, &logo_71, &logo_70, &logo_69, &logo_68, &logo_67, &logo_66, &logo_65, &logo_64, &logo_63, &logo_62, &logo_61, &logo_60, &logo_59, &logo_58, &logo_57, &logo_56, &logo_55, &logo_54, &logo_53, &logo_52, &logo_51, &logo_50, &logo_51, &logo_52, &logo_53, &logo_54, &logo_55, &logo_56, &logo_57, &logo_58, &logo_59, &logo_60, &logo_61, &logo_62, &logo_63, &logo_64, &logo_65, &logo_66, &logo_67, &logo_68, &logo_69, &logo_70, &logo_71, &logo_72, &logo_73, &logo_74, &logo_75 };
 
@@ -101,9 +101,7 @@ typedef struct Texter Texter;
 struct Texter {
   int ids[TEXT_SIZE];
   int xs[TEXT_SIZE];
-  int index;
   PTILEMAP tilemaps[TEXT_SIZE];
-  DWORD vbl_delta;
 };
 
 typedef struct Triangle Triangle;
@@ -121,6 +119,33 @@ static Snow snows[SNOW_MAX];
 static Triangle triangles[TRIANGLE_MAX];
 static Logo logo;
 static Texter texter;
+
+static void backdrop_color(BYTE index);
+
+static void logo_init();
+static void logo_move();
+static void logo_update();
+static void logo_zoom();
+
+static void snow_init(Snow *psnow, BYTE size);
+static void snows_update();
+static void snows_field_init();
+
+static void texter_init();
+static void texter_update();
+
+static void triangle_init(
+  Triangle *triangle,
+  FIXED y,
+  int clipping,
+  DWORD vbl_delta_move_update,
+  const TILEMAP *tilemap
+);
+
+static void triangles_init();
+static void triangle_move(Triangle *triangle);
+static void triangle_zoom(Triangle *triangle, BYTE triangle_num);
+static void triangles_update();
 
 static void backdrop_color(BYTE index) {
   switch (index) {
@@ -169,17 +194,14 @@ static void backdrop_color(BYTE index) {
     break;
 
   case 11:
-    asm("move #0x1157,0x401FFE");
-    break;
-
   default:
+    asm("move #0x1157,0x401FFE");
     break;
   }
 }
 
 static void logo_init() {
   logo.tile_index = 0;
-
   logo.id_shadow = write_sprite_data(
     LOGO_X_MOVE - 70,
     LOGO_Y_MOVE + 25,
@@ -211,15 +233,17 @@ static void logo_move() {
   change_sprite_pos(
     logo.id_shadow,
     LOGO_X_MOVE - 10 + (logo.shadow_yz DIV8),
-    LOGO_Y_MOVE - 40 - (logo.shadow_yz DIV2),
+    LOGO_Y_MOVE + 57 - (logo.shadow_yz DIV2),
     clipping_tile_size(96)
   );
 }
 
 static void logo_zoom() {
-  logo.shadow_yz += (logo.tile_index > (LOGO_TABLE_TILES_SIZE DIV2))
-    ?  2
-    : -2;
+  logo.shadow_yz += (logo.tile_index > ((LOGO_TABLE_TILES_SIZE) DIV2))
+    ?  3
+    : -3;
+  if (logo.shadow_yz >= 0xFF) logo.shadow_yz = 0xFF;
+  if (logo.shadow_yz <= 0x00) logo.shadow_yz = 0x00;
 
   if (_vbl_count % 2 == 0) {
     set_current_sprite(logo.id);
@@ -251,7 +275,7 @@ static void logo_update() {
   logo_zoom();
 }
 
-static void snow_init(Snow *psnow, BYTE size){
+static void snow_init(Snow *psnow, BYTE size) {
   psnow->x = RAND320 - SNOW_X_OFFSET;
   psnow->y = RAND224 - SNOW_Y_OFFSET;
   psnow->shrunk_index = rand() % SHRUNK_TABLE_SIZE;
@@ -340,8 +364,6 @@ static void texter_init() {
   int spriteIndex = get_current_sprite();
   int spriteIndexStart = spriteIndex;
   int spriteIndexMax = spriteIndex + TEXTER_SPRITES_MAX;
-  texter.index = 0;
-  texter.vbl_delta = 10;
 
   for (i = 0; i < TEXT_SIZE; i++) {
     texter.ids[i] = NULL;
@@ -388,6 +410,7 @@ static void texter_update() {
     }
     if (texter.xs[i] < 320 && texter.xs[i] >= 0) {
       if (texter.tilemaps[i] != NULL) {
+        current_sprite = get_current_sprite();
         set_current_sprite(texter.ids[i]);
         write_sprite_data(
           texter.xs[i],
@@ -398,12 +421,14 @@ static void texter_update() {
           tile_size_number(16),
           (const PTILEMAP)texter.tilemaps[i]
         );
+        set_current_sprite(current_sprite);
       }
-      texter.index++;
     }
   }
+  if (texter.xs[TEXT_SIZE - 1] <= -100) {
+    for (i = 0; i < TEXT_SIZE; i++) texter.xs[i] = 340 + (i MULT8);
+  }
 }
-
 
 static void triangle_init(
     Triangle *triangle,
@@ -412,23 +437,23 @@ static void triangle_init(
     DWORD vbl_delta_move_update,
     const TILEMAP *tilemap
   ) {
-  triangle->zoom_yz = 0xFF;
+    triangle->zoom_yz = 0xFF;
 
-  triangle->id = write_sprite_data(
-                  0,
-                  fixtoi(y),
-                  0xF,
-                  triangle->zoom_yz,
-                  clipping,
-                  tile_size_number(512),
-                  (const PTILEMAP)tilemap
-                );
+    triangle->id = write_sprite_data(
+                    0,
+                    fixtoi(y),
+                    0xF,
+                    triangle->zoom_yz,
+                    clipping,
+                    tile_size_number(512),
+                    (const PTILEMAP)tilemap
+                  );
 
-  triangle->x = 0;
-  triangle->y = y;
-  triangle->clipping = clipping;
-  triangle->zoom_polarity = false;
-  triangle->vbl_delta_move_update = vbl_delta_move_update;
+    triangle->x = 0;
+    triangle->y = y;
+    triangle->clipping = clipping;
+    triangle->zoom_polarity = false;
+    triangle->vbl_delta_move_update = vbl_delta_move_update;
 }
 
 static void triangles_init() {
@@ -536,29 +561,18 @@ static void triangles_update() {
 }
 
 int main(void) {
-    /* DECLARATION */
-
-  //logoZoomEffect logoZoomEffect;
-  WORD sinText = 0;
-  WORD sinLogo = 0;
   BYTE backdrop_color_index = 0;
 
-    /* INIT */
-  // playcdda();
+  CDDA_PLAY
   setpalette(0, 60, (const PPALETTE)&palettes);
   backdrop_color(backdrop_color_index);
-  // backdropColorNext(&backdropColorIndex);
-
-  // logoZoomEffect = logoZoomEffectMake(0,75,2);
   set_current_sprite(3);
 
-  /* INIT SPRITE & STRUCT SPRITE */
-  /*  SNOW */
-  #ifdef SNOW
+  #ifdef SNOW_ON
   snows_field_init();
   #endif
 
-  #ifdef LOGO
+  #ifdef LOGO_ON
   logo_init();
   #endif
 
@@ -576,43 +590,20 @@ int main(void) {
     triangles_update();
     #endif
 
-    //texter sin
     #ifdef TEXT_ON
-    if (_vbl_count % 2 == 0){
-      sinText++;
-    }
-    if (_vbl_count % 1 == 0) texter_update();
+    texter_update();
     #endif
-    #ifdef SNOW
+
+    #ifdef SNOW_ON
     snows_update();
     #endif
 
-    #ifdef LOGO
-    // logoZoomEffectUpdate(&logoZoomEffect, sinLogo);
+    #ifdef LOGO_ON
     logo_update();
     #endif
 
-    if (backdrop_color_index <= 15 && _vbl_count % 20 == 0) {
+    if (backdrop_color_index <= 12 && _vbl_count % 10 == 0) {
       backdrop_color(backdrop_color_index++);
     }
-
-    #ifdef TEXT_ON
-    if (_vbl_count > 200) {
-      // texter8SinScrollEffect(&text, sinText);
-      #ifdef TEXTERDB_ON
-      texter8SinScrollEffectDebug(text);
-      #endif
-    }
-    /*
-    if(_vbl_count % 4200 == 0) { // TEXT RESTART
-      text.headPlaySpr = 0;
-      text.headPlayStr = 0;
-      text.isComplete = 0;
-    }
-    */
-    #endif
-    #ifdef LOGO
-    sinLogo++;
-    #endif
   }
 }

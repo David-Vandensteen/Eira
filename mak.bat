@@ -11,6 +11,7 @@ set demoName=Eira
 set output=%temp%\%demoName%
 set outputIso=%output%\%demoName%.iso
 set outputCue=%output%\%demoName%.cue
+set outputMp3=%output%\%demoName%.mp3
 
 if "%1"=="run" (
   echo Choose Play Game on Raine menu
@@ -20,6 +21,14 @@ if "%1"=="run" (
 )
 
 set NEODEV=%appdata%\neocore\neodev-sdk
+
+if not exist %NEODEV% (
+  echo neodev not found ...
+  echo execute mak install
+  popd
+  goto :end
+)
+
 set cdFlatPath=%output%\cdflat\
 set buildTemp=%output%\build
 set buildErrLog=%output%\build-error.log
@@ -41,26 +50,9 @@ if not exist %buildTemp%\crt0_cd.o echo build crt error && goto :error
 :compile-program
 set gc0=gcc -I%NEODEV%\m68k\include -m68000 -O3 -Wall -fomit-frame-pointer -ffast-math -fno-builtin
 set gc0=%gc0% -nostartfiles -nodefaultlibs -D__cd__ -c main.c -o %buildTemp%\main.o 2>%buildErrLog%
-
-set gc1=gcc -I%NEODEV%\m68k\include -m68000 -O3 -Wall -fomit-frame-pointer -ffast-math -fno-builtin
-set gc1=%gc1% -nostartfiles -nodefaultlibs -D__cd__ -c neo_core.c -o %buildTemp%\neo_core.o 2>>%buildErrLog%
-
-set gc2=gcc -I%NEODEV%\m68k\include -m68000 -O3 -Wall -fomit-frame-pointer -ffast-math -fno-builtin
-set gc2=%gc2% -nostartfiles -nodefaultlibs -D__cd__ -c neo_db.c -o %buildTemp%\neo_db.o 2>>%buildErrLog%
-
-set gc3=gcc -I%NEODEV%\m68k\include -m68000 -O3 -Wall -fomit-frame-pointer -ffast-math -fno-builtin
-set gc3=%gc3% -nostartfiles -nodefaultlibs -D__cd__ -c logoEffect.c -o %buildTemp%\logoEffect.o 2>>%buildErrLog%
-
-set gc4=gcc -I%NEODEV%\m68k\include -m68000 -O3 -Wall -fomit-frame-pointer -ffast-math -fno-builtin
-set gc4=%gc4% -nostartfiles -nodefaultlibs -D__cd__ -c neo_texter.c -o %buildTemp%\neo_texter.o 2>>%buildErrLog%
-
-%gc0% && %gc1% && %gc2% && %gc3% && %gc4%
+%gc0%
 
 if not exist %buildTemp%\main.o echo build error && goto :error
-if not exist %buildTemp%\neo_core.o echo build error && goto :error
-if not exist %buildTemp%\neo_db.o echo build error && goto :error
-if not exist %buildTemp%\logoEffect.o echo build error && goto :error
-if not exist %buildTemp%\neo_texter.o echo build error && goto :error
 
 :define-gfx
 set gfxList=triangle03down triangle03up triangle02down triangle02up triangle01down triangle01up snow
@@ -98,7 +90,6 @@ for %%i in (%gfxList%) do bin2elf %buildTemp%\%%i.map %%i %buildTemp%\%%i.o
 :link
 set link=gcc -L%NEODEV%\m68k\lib -m68000 -O3 -Wall -fomit-frame-pointer -ffast-math -fno-builtin -nostartfiles
 set link=%link% -nodefaultlibs -D__cd__ -Wl,-T%NEODEV%\src\system\neocd.x %buildTemp%\crt0_cd.o %buildTemp%\main.o
-set link=%link% %buildTemp%\neo_core.o %buildTemp%\neo_db.o %buildTemp%\logoEffect.o %buildTemp%\neo_texter.o
 set link=%link% %buildTemp%\palettes.o
 set link=%link% %gfxObjectList% -lcddactrl -lmath -linput -lvideo -lc -lgcc -o %buildTemp%\DEMO.o
 
@@ -118,6 +109,8 @@ copy cd_template\* %cdFlatPath%
 
 :make-iso
 %NEODEV%\..\bin\mkisofs.exe -o %outputIso% -pad %cdFlatPath%
+copy ..\Release\eira_rse_ngcd\%demoName%.mp3 %outputMp3%
+copy ..\Release\eira_rse_ngcd\%demoName%_mp3.cue %outputCue%
 
 :restore-path
 set %path%=%backupPath%
@@ -132,8 +125,6 @@ goto :end
 
 :error_prg
 notepad %buildErrLog%
-goto :end
 
 goto :end
-
 :end
