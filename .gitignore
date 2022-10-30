@@ -1,3 +1,4 @@
+build/
 .vscode
 Thumbs.db
 Release/eira_rse_ngcd/Eira.wav
