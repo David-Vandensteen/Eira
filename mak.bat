@@ -1,26 +1,26 @@
 if "%1"=="install" (
   echo Install NeoDev SDK...
   pushd scripts
-  powershell -ExecutionPolicy Bypass -File neocore-setup.ps1 %appdata%\neocore
+  powershell -ExecutionPolicy Bypass -File neocore-setup.ps1 -Path ..\build
   popd
   goto :end
 )
 
 pushd src
 set demoName=Eira
-set output=%temp%\%demoName%
+set output=..\build\%demoName%
 set outputIso=%output%\%demoName%.iso
 set outputCue=%output%\%demoName%.cue
 set outputMp3=%output%\%demoName%.mp3
 
 if "%1"=="run" (
   echo Choose Play Game on Raine menu
-  %appdata%\neocore\raine\raine32.exe %outputIso%
+  ..\build\raine\raine32.exe %outputIso%
   popd
   goto :end
 )
 
-set NEODEV=%appdata%\neocore\neodev-sdk
+set NEODEV=..\build\neodev-sdk
 
 if not exist %NEODEV% (
   echo neodev not found ...
@@ -81,6 +81,11 @@ set gfxObjectList=%gfxObjectList% %buildTemp%\fontA16.o %buildTemp%\fontB16.o %b
 :generated-palettes
 fixcnv fix_font.bmp -o %buildTemp%\test.fix -pal %buildTemp%\fix.pal
 gfxcc -black %buildTemp%\fix.pal %gfxBmpList% -o %buildTemp%\test.spr
+
+rem fix generated test.pal path (relative path bug on gfxcc ?)
+move ..pal %buildTemp%\test.pal
+rem ---
+
 move *.map %buildTemp%
 
 :compile-images
